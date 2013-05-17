@@ -1,4 +1,4 @@
-rethinkdb-mongodb-postgres-comparison
+nosql-comparison
 =====================================
 
-Code used to run performance tests to compare rethinkdb, mongodb, and postgres (text column and hstore)
+Code used to run performance tests to compare rethinkdb, mongodb, and postgres rdbms
