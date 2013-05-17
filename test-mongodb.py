@@ -18,7 +18,8 @@ logger.debug
 db = client.performancetest
 logger.debug('db.name={0}'.format(db.name))
 
-logger.info('starting performance test #1: insert 1000000 records')
-for i in range (1, 1000000):
+count = 10000
+logger.info('starting performance test #1: insert {0} records'.format(count))
+for i in range (1, count):
 	db.items.save({"id": i, "value": {"id": i, "title": "Test Title"}})
-logger.info('ending performance test #1: insert 1000000 records')
+logger.info('ending performance test #1: insert {0} records'.format(count))

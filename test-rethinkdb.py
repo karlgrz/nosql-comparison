@@ -12,14 +12,18 @@ logger.addHandler(file_handler)
 logger.setLevel(logging.INFO)
 
 logger.debug('starting connecting to rethinkdb')
-r.connect('localhost', 28015).repl()
+con = r.connect('localhost', 28015).repl()
 logger.debug('finished connecting to rethinkdb')
 
-logger.debug('starting creating table items')
-r.db('test').table_create('items').run()
-logger.debug('finished creating table items')
+tables = r.db('test').table_list().run(con)
+print tables
+if 'items' not in tables:
+	logger.debug('starting creating table items')
+	r.db('test').table_create('items').run(con)
+	logger.debug('finished creating table items')
 
-logger.info('starting performance test #1: insert 1000000 records')
-for i in range (1, 1000000):
-	r.db('test').table('items').insert({"id": i, "value": {"id": i, "title": "Test Title"}}).run(noreply=True)
-logger.info('ending performance test #1: insert 1000000 records')
+count = 10000
+logger.info('starting performance test #1: insert {0} records'.format(count))
+for i in range (1, count):
+	r.db('test').table('items').insert({"id": i, "value": {"id": i, "title": "Test Title"}}).run(con, noreply=True)
+logger.info('ending performance test #1: insert {0} records'.format(count))
