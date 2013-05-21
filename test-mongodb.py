@@ -31,10 +31,13 @@ logger.info('ending performance test #2: reading {0} records'.format(count))
 
 heavy_pct_count=9000
 logger.info('starting performance test #3: write heavily ({0} writes, {1} reads)'.format(heavy_pct_count, count-heavy_pct_count))
-for i in range (1, count):
-	for j in range (1, 9):
-		if j % 9 == 0:
-			item = db.items.find_one({"id": i})
-		else:
-			item = db.items.save({"id": i, "value": {"id": i, "title": "Test Title"}})
+
+j = 0
+for i in range (count, count*2):
+	j+=1
+	if j % 9 == 0:
+		item = db.items.find_one({"id": i})
+		j = 0
+	else:
+		item = db.items.save({"id": i, "value": {"id": i, "title": "Test Title"}})
 logger.info('ending performance test #3: write heavily ({0} writes, {1} reads)'.format(heavy_pct_count, count-heavy_pct_count))
