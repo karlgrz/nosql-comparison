@@ -49,3 +49,18 @@ with con.cursor() as cur:
 			cur.execute("INSERT INTO items (id, value) VALUES(%s, %s)", (count + i, '{"id": i, "value": {"id": i, "title": "Test Title"}}'))
 			con.commit()
 logger.info('ending performance test #3: write heavily ({0} writes, {1} reads)'.format(heavy_pct_count, count-heavy_pct_count))
+
+logger.info('starting performance test #4: read heavily ({0} reads, {1} writes)'.format(heavy_pct_count, count-heavy_pct_count))
+with con.cursor() as cur:
+	j = 0 
+	for i in range (count*2, count*3):
+		j+=1
+               	if j % 9 == 0:
+			cur.execute("INSERT INTO items (id, value) VALUES(%s, %s)", (count + i, '{"id": i, "value": {"id": i, "title": "Test Title"}}'))
+			con.commit()
+			j = 0
+                else:
+			cur.execute("SELECT * FROM items WHERE id = %s", (i-count,))
+	        	item = cur.fetchone()
+			con.commit()
+logger.info('ending performance test #4: read heavily ({0} reads, {1} writes)'.format(heavy_pct_count, count-heavy_pct_count))

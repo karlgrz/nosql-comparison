@@ -41,3 +41,15 @@ for i in range (count, count*2):
 	else:
 		item = db.items.save({"id": i, "value": {"id": i, "title": "Test Title"}})
 logger.info('ending performance test #3: write heavily ({0} writes, {1} reads)'.format(heavy_pct_count, count-heavy_pct_count))
+
+logger.info('starting performance test #4: read heavily ({0} reads, {1} writes)'.format(heavy_pct_count, count-heavy_pct_count))
+
+j = 0
+for i in range (count*2, count*3):
+	j+=1
+	if j % 9 == 0:
+		item = db.items.save({"id": i, "value": {"id": i, "title": "Test Title"}})
+	else:
+		item = db.items.find_one({"id": i})
+		j = 0
+logger.info('ending performance test #4: read heavily ({0} reads, {1} writes)'.format(heavy_pct_count, count-heavy_pct_count))				

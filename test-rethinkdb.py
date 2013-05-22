@@ -38,7 +38,7 @@ logger.info('ending performance test #2: read {0} records'.format(count))
 heavy_pct_count=9000
 logger.info('starting performance test #3: write heavily ({0} writes, {1} reads)'.format(heavy_pct_count, count-heavy_pct_count))
 j=0
-for i in range (1, count):
+for i in range (count, count*2):
 	j+=1
 	if j % 9 == 0:
 		item = r.db('test').table('items').get(i).run(con)
@@ -46,4 +46,15 @@ for i in range (1, count):
         else:
 		r.db('test').table('items').insert({"id": i, "value": {"id": i, "title": "Test Title"}}).run(con, noreply=True)
 logger.info('ending performance test #3: write heavily ({0} writes, {1} reads)'.format(heavy_pct_count, count-heavy_pct_count))
+
+logger.info('starting performance test #4: read heavily ({0} reads, {1} writes)'.format(heavy_pct_count, count-heavy_pct_count))
+j=0
+for i in range (count*2, count*3):
+	j+=1
+	if j % 9 == 0:
+		r.db('test').table('items').insert({"id": i, "value": {"id": i, "title": "Test Title"}}).run(con, noreply=True)
+		j=0
+        else:
+		item = r.db('test').table('items').get(i).run(con)
+logger.info('ending performance test #4: read heavily ({0} reads, {1} writes)'.format(heavy_pct_count, count-heavy_pct_count))
 
