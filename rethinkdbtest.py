@@ -13,6 +13,6 @@ class RethinkDBTest():
 		r.db('test').table_create('items').run(self.con)
 		self.count = count
 	def select(self, i):
-		r.db('test').table('items').insert({"id": i, "value": {"id": i, "title": "Test Title"}}).run(self.con, noreply=True)
+		return r.db('test').table('items').get(i).run(self.con)
 	def insert(self, i):
-		r.db('test').table('items').get(i).run(self.con)	
+		r.db('test').table('items').insert({"id": i, "value": {"id": i, "title": "Test Title"}}).run(self.con, noreply=True)

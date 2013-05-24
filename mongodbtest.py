@@ -10,6 +10,6 @@ class MongoDBTest():
 		self.db = client.performancetest
 		self.count = count
 	def select(self, i):
-		self.db.items.find_one({"id": i})
+		return self.db.items.find_one({"id": i})
 	def insert(self, i):
 		self.db.items.save({"id": i, "value": {"id": i, "title": "Test Title"}})
